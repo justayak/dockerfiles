@@ -23,3 +23,5 @@ RUN apt-get update && apt-get install -y \
     libc++abi-dev
 
 RUN apt-get install -y --no-install-recommends doxygen
+
+RUN /bin/bash
