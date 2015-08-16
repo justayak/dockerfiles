@@ -1,0 +1,4 @@
+dievier:
+    build: .
+    ports:
+        - "49160:8080"
