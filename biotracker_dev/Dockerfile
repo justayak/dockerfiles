@@ -24,4 +24,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y --no-install-recommends doxygen
 
+VOLUME ['~/biotracker:/biotracker']
+
 RUN /bin/bash
