@@ -24,6 +24,13 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y --no-install-recommends doxygen
 
-VOLUME ['~/biotracker:/biotracker']
+RUN useradd julian -u 1000 -s /bin/bash --no-create-home
+
+WORKDIR /home/julian/
+ENV HOME /home/julian
+
+VOLUME ['/home']
+
+USER julian
 
 RUN /bin/bash
