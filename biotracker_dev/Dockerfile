@@ -1,5 +1,5 @@
 # BioTracker @FU-Berlin
-FROM ubuntu:15.10
+FROM justayak/dev
 
 ENV DEBIAN_FRONTEND noninteractiv
 
@@ -24,12 +24,14 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y --no-install-recommends doxygen
 
+RUN apt-get install qtcreator
+
 RUN useradd julian -u 1000 -s /bin/bash --no-create-home
 
-WORKDIR /home/julian/
-ENV HOME /home/julian
+#WORKDIR /home/julian/
+#ENV HOME /home/julian
 
-VOLUME ['/home']
+#VOLUME ['/home']
 
 USER julian
 

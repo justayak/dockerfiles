@@ -7,8 +7,8 @@ RUN apt-get update
 RUN apt-get install -y x11-apps
 RUN apt-get install -y sudo
 
-RUN useradd julian -u 1000 && adduser julian sudo
+#RUN useradd julian -u 1000 && echo "julian:julian" | chpasswd && adduser julian sudo
 
-USER julian
+#USER julian
 
 CMD /bin/bash
