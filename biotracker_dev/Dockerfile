@@ -28,15 +28,9 @@ RUN apt-get install -y --no-install-recommends doxygen
 
 RUN apt-get install -y qtcreator
 
-# disable device due to opencv2 bug
-RUN ln /dev/null /dev/raw1394
-#RUN useradd julian -u 1000 -s /bin/bash --no-create-home
+COPY a.jpg /home/a.jpg
+COPY b.jpg /home/b.jpg
 
-#WORKDIR /home/julian/
-#ENV HOME /home/julian
-
-#VOLUME ['/home']
-
-#USER julian
+RUN git clone https://github.com/Sh4kE/biotracker.git /home/biotracker
 
 RUN /bin/bash
