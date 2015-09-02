@@ -1,8 +1,6 @@
 # BioTracker @FU-Berlin
 FROM justayak/dev
 
-RUN echo PASSWORD
-
 ENV DEBIAN_FRONTEND noninteractiv
 
 RUN echo 'initializing BioTracker dev environment'
@@ -28,8 +26,11 @@ RUN apt-get install -y --no-install-recommends doxygen
 
 RUN apt-get install -y qtcreator
 
+RUN apt-get install -y astyle
+
 COPY a.jpg /home/a.jpg
 COPY b.jpg /home/b.jpg
+COPY big_buck_bunny.avi /home/big_buck_bunny.avi
 
 RUN git clone https://github.com/Sh4kE/biotracker.git /home/biotracker
 

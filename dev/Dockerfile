@@ -13,7 +13,10 @@ RUN apt-get install -y git
 RUN apt-get install -y wget
 RUN apt-get install -y tmux
 RUN apt-get install -y vim
+RUN apt-get install -y zsh
+RUN apt-get install -y curl
 
-CMD /bin/bash
+RUN curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
 
-EXPOSE 5901
+
+CMD ["/bin/zsh"]
