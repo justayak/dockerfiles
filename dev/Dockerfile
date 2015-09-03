@@ -10,6 +10,7 @@ RUN apt-get upgrade -y
 #RUN apt-get update
 RUN apt-get install -y x11-apps
 RUN apt-get install -y git
+RUN apt-get install -y gitk
 RUN apt-get install -y wget
 RUN apt-get install -y tmux
 RUN apt-get install -y vim
