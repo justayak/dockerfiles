@@ -1,3 +1,3 @@
 xhost +
-docker start biotrack
-docker attach biotrack
+docker start biotrack_
+docker attach biotrack_

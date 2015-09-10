@@ -26,6 +26,9 @@ RUN apt-get install -y --no-install-recommends doxygen
 
 RUN apt-get install -y qtcreator
 
+RUN apt-get install -y python-dev
+RUN apt-get install -y python3-dev
+
 RUN apt-get install -y astyle
 RUN apt-get install -y zsh
 
@@ -35,6 +38,10 @@ COPY a.jpg /home/a.jpg
 COPY b.jpg /home/b.jpg
 COPY big_buck_bunny.avi /home/big_buck_bunny.avi
 
-RUN git clone https://github.com/BioroboticsLab/biotracker.git /home/biotracker
+#RUN git clone https://github.com/BioroboticsLab/biotracker.git /home/biotracker
 
-RUN /bin/bash
+RUN git clone https://github.com/BioroboticsLab/biotracker_core.git /biotracker_core
+RUN git clone https://github.com/BioroboticsLab/biotracker_gui.git /biotracker_gui
+
+
+RUN /bin/zsh
