@@ -19,5 +19,4 @@ RUN apt-get install -y curl
 
 RUN curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
 
-
 CMD ["/bin/zsh"]
