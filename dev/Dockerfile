@@ -16,6 +16,10 @@ RUN apt-get install -y tmux
 RUN apt-get install -y vim
 RUN apt-get install -y zsh
 RUN apt-get install -y curl
+#RUN apt-get install -y python-software-properties
+#RUN apt-add-repository ppa:webupd8team/sublime-text-3
+#RUN apt-get update
+#RUN apt-get install -y sublime-text-installer
 
 RUN curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
 
