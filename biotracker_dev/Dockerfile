@@ -42,9 +42,23 @@ COPY big_buck_bunny.avi /home/big_buck_bunny.avi
 
 #RUN git clone https://github.com/BioroboticsLab/biotracker.git /home/biotracker
 
-#install zmq
+#install libsodium
 RUN apt-get install -y libtool-bin
 RUN apt-get install -y autoconf
+RUN cd /home && git clone git://github.com/jedisct1/libsodium.git
+RUN cd /home/libsodium && ./autogen.sh
+RUN cd /home/libsodium && ./configure && make -j4
+RUN cd /home/libsodium && make install
+run cd /home/libsodium && ldconfig
+
+#install libzmq
+RUN cd /home && git clone git://github.com/zeromq/libzmq.git
+RUN cd /home/libzmq && ./autogen.sh
+RUN cd /home/libzmq && ./configure && make -j4
+RUN cd /home/libzmq && make install
+RUN cd /home/libzmq && ldconfig
+
+#install czmq
 RUN cd /home && wget https://github.com/zeromq/czmq/archive/v3.0.2.tar.gz
 RUN cd /home && tar -zxf v3.0.2.tar.gz
 RUN cd /home/czmq-3.0.2 && ./autogen.sh
