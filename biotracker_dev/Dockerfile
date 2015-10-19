@@ -25,6 +25,8 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y --no-install-recommends doxygen
 RUN apt-get install -y qtcreator
 
+RUN apt-get install -y libzmq-dev
+
 RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
 RUN apt-get install -y python-numpy
@@ -40,8 +42,20 @@ COPY big_buck_bunny.avi /home/big_buck_bunny.avi
 
 #RUN git clone https://github.com/BioroboticsLab/biotracker.git /home/biotracker
 
+#install zmq
+RUN apt-get install -y libtool-bin
+RUN apt-get install -y autoconf
+RUN cd /home && wget https://github.com/zeromq/czmq/archive/v3.0.2.tar.gz
+RUN cd /home && tar -zxf v3.0.2.tar.gz
+RUN cd /home/czmq-3.0.2 && ./autogen.sh
+RUN cd /home/czmq-3.0.2 && ./configure
+RUN cd /home/czmq-3.0.2 && make -j4
+RUN cd /home/czmq-3.0.2 && make install && ldconfig
+
+
 RUN git clone https://github.com/BioroboticsLab/biotracker_core.git /biotracker_core
 RUN git clone https://github.com/BioroboticsLab/biotracker_gui.git /biotracker_gui
 
+RUN cd /home && curl -L https://github.com/zeromq/czmq/archive/v3.0.2.tar.gz
 
 RUN /bin/zsh
