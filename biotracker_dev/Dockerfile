@@ -66,6 +66,7 @@ RUN cd /home/czmq-3.0.2 && ./configure
 RUN cd /home/czmq-3.0.2 && make -j4
 RUN cd /home/czmq-3.0.2 && make install && ldconfig
 
+RUN apt-get install -y python-zmq
 
 RUN git clone https://github.com/BioroboticsLab/biotracker_core.git /biotracker_core
 RUN git clone https://github.com/BioroboticsLab/biotracker_gui.git /biotracker_gui
