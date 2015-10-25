@@ -31,8 +31,12 @@ RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
 RUN apt-get install -y python-numpy
 RUN apt-get install -y python3-numpy
+RUN apt-get install -y python3-setuptools
 RUN apt-get install -y astyle
 RUN apt-get install -y zsh
+
+RUN easy_install3 pip
+RUN pip install pyzmq
 
 RUN curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
 
