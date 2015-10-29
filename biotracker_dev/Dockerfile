@@ -35,6 +35,10 @@ RUN apt-get install -y python3-setuptools
 RUN apt-get install -y astyle
 RUN apt-get install -y zsh
 
+RUN apt-get install -y libprotobuf-dev
+RUN apt-get install -y python-protobuf
+RUN apt-get install -y protobuf-compiler
+
 RUN easy_install3 pip
 RUN pip install pyzmq
 
