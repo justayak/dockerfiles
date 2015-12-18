@@ -1,1 +1,1 @@
-docker build --tag="justayak/dev" .
+docker build --tag="justayak/owncloud" .

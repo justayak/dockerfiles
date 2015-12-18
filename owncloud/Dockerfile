@@ -1,26 +1,27 @@
 #Julians default dev build
 FROM ubuntu:15.10
-
+EXPOSE 80
 ENV DEBIAN_FRONTEND noninteractiv
 
-RUN apt-get update
-RUN apt-get upgrade -y
-#RUN apt-get install -y lxde-core lxterminal && rm \
-#    rm -rf /var/lib/apt/lists/*
-#RUN apt-get update
-RUN apt-get install -y x11-apps
-RUN apt-get install -y git
-RUN apt-get install -y gitk
-RUN apt-get install -y wget
-RUN apt-get install -y tmux
-RUN apt-get install -y vim
-RUN apt-get install -y zsh
-RUN apt-get install -y curl
-#RUN apt-get install -y python-software-properties
-#RUN apt-add-repository ppa:webupd8team/sublime-text-3
-#RUN apt-get update
-#RUN apt-get install -y sublime-text-installer
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+	wget \
+	tmux \
+	vim \
+	curl \
+	php5 \
+	sqlite3 \
+	libsqlite3-dev \
+	nginx
 
-RUN curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
+RUN apt-get install -y nginx
 
-CMD ["/bin/zsh"]
+#RUN wget -nv https://download.owncloud.org/download/repositories/stable/Ubuntu_15.10/Release.key -O Release.key && apt-key add - < Release.key
+
+#RUN sh -c "echo 'deb http://download.owncloud.org/download/repositories/stable/Ubuntu_15.10/ /' >> /etc/apt/sources.list.d/owncloud.list" && apt-get update && apt-get install -y owncloud
+
+#COPY permissions.sh /permissions.sh
+#RUN sh permissions.sh
+
+COPY setup-owncloud.php
+
+CMD ["/bin/bash"]
