@@ -81,4 +81,11 @@ RUN git clone https://github.com/BioroboticsLab/biotracker_gui.git /biotracker_g
 
 RUN cd /home && curl -L https://github.com/zeromq/czmq/archive/v3.0.2.tar.gz
 
+# install opencv python
+RUN apt-get install -y build-essential cmake git pkg-config
+RUN apt-get install -y libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev
+RUN apt-get install -y libgtk2.0-dev
+RUN apt-get install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+RUN apt-get install -y libatlas-base-dev gfortran
+
 RUN /bin/zsh
