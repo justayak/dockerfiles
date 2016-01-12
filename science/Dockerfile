@@ -97,4 +97,4 @@ RUN cd opencv/build/ && cmake -D CMAKE_BUILD_TYPE=RELEASE \
     make -j4 && \
     make install
 
-CMD ["/binEXPOSE 8888/bash"]
+CMD ["/bin/bash"]
