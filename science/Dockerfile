@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     vim \
     cmake \
+    locate \
     build-essential \
     pkg-config \
     libjpeg8-dev \
@@ -21,7 +22,10 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libavformat-dev \
     libswscale-dev \
     libv4l-dev \
+    python-dev \
     python3-dev \
+    libpython3-dev \
+    libpython3.5-dev \
     libgtk2.0-dev \
     libatlas-base-dev \
     gfortran \
@@ -32,7 +36,6 @@ RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.s
     git clone https://github.com/Itseez/opencv_contrib.git
 
 RUN cd opencv && git checkout 3.1.0
-RUN cd opencv_contrib && git checkout 3.1.0
 
 RUN bash Miniconda3-latest-Linux-x86_64.sh -b
 
@@ -96,20 +99,15 @@ RUN conda install -y numpy \
     zeromq \
     zlib
 
-#    -D PYTHON3_PACKAGES_PATH=/root/minoconda3/bin \
-#    -D PYTHON3_LIBRARY=/root/miniconda3/lib/libpython5m.so.1.0 \
-#    -D PYTHON3_INCLUDE_DIR=/root/minoconda3/include \
-
-RUN cd opencv/build/ && cmake -D CMAKE_BUILD_TYPE=RELEASE \
-    -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D PYTHON3_LIBRARY=/root/miniconda3/lib/libpython3.5m.so \
-    -D PYTHON3_PACKAGES_PATH=/root/minoconda3/lib/python3.5/site-packages \
-    -D PYTHON3_INCLUDE_DIR=/root/minoconda3/include/python3.5m \
-    -D PYTHON3_NUMPY_INCLUDE_DIRS=/root/miniconda3/lib/python3.5/site-packages/numpy/core/include \
-    -D OPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
-    -D INSTALL_C_EXAMPLES=OFF .. && \
-    make -j4 && \
-    make install && \
-    ldconfig
+RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
+    -DWITH_CUDA=OFF -DENABLE_AVX=ON -DWITH_OPENGL=ON -DWITH_OPENCL=ON \
+    -DWITH_IPP=ON -DWITH_TBB=ON -DWITH_EIGEN=ON -DWITH_V4L=ON \
+    -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_BUILD_TYPE=RELEASE \
+    -DCMAKE_INSTALL_PREFIX=$(python3 -c "import sys; print(sys.prefix)") \
+    -DPYTHON3_EXECUTABLE=$(which python3) \
+    -DPYTHON3_INCLUDE_DIR=$(python3 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
+    -DPYTHON3_PACKAGES_PATH=$(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") .. \
+    && make -j4 \
+    && make install
 
 CMD ["/bin/bash"]
