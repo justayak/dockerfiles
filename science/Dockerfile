@@ -7,6 +7,7 @@ ENV DEBIAN_FRONTEND noninteractiv
 ENV PATH /root/miniconda3/bin:$PATH
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    firefox \
     git \
     curl \
     vim \
@@ -32,8 +33,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     tmux
 
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build && \
-    git clone https://github.com/Itseez/opencv_contrib.git
+    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build
 
 RUN cd opencv && git checkout 3.1.0
 
