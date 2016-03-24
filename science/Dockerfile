@@ -97,7 +97,10 @@ RUN conda install -y numpy \
     werkzeug \
     unicodecsv \
     zeromq \
-    zlib
+    zlib 
+
+RUN conda install -y -c https://conda.anaconda.org/omnia keras
+RUN conda update conda & conda update --all 
 
 RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
     -DWITH_CUDA=OFF -DENABLE_AVX=ON -DWITH_OPENGL=ON -DWITH_OPENCL=ON \
@@ -109,5 +112,7 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
     -DPYTHON3_PACKAGES_PATH=$(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") .. \
     && make -j4 \
     && make install
+
+COPY run_ipnb.sh run_ipnb.sh
 
 CMD ["/bin/bash"]
