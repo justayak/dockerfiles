@@ -113,6 +113,7 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
     && make -j4 \
     && make install
 
-COPY run_ipnb.sh run_ipnb.sh
+COPY run_ipnb.sh /home/run_ipnb.sh
 
 CMD ["/bin/bash"]
+#CMD ["etc/bash" "run_ipnb.sh"]

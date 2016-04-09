@@ -1,1 +1,1 @@
-ipython notebook --ip='*'
+jupyter notebook --ip='*'
