@@ -7,6 +7,7 @@ RUN apt-get install -y x11-apps \
     gitk \
     wget \
     tmux \
+    subversion \
     vim \
     curl
 
@@ -41,5 +42,8 @@ RUN sh -c 'echo "deb-src http://debs.strawlab.org/ precise/" >> \
 RUN add-apt-repository ppa:ctrax/ppa
 RUN apt-get update
 RUN apt-get install -y python-ctrax python-matplotlib
+
+# just for fun, lets see ctrax source code
+RUN svn checkout svn://svn.code.sf.net/p/ctrax/code/trunk ctrax-code
 
 RUN /bin/bash
