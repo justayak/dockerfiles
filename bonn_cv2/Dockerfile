@@ -2,6 +2,7 @@
 FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND noninteractiv
+ENV LD_LIBRARY_PATH /usr/local/lib
 
 COPY ssh/id_rsa /root/.ssh/id_rsa
 COPY ssh/id_rsa.pub /root/.ssh/id_rsa.pub
@@ -51,8 +52,9 @@ RUN git config --global user.email "jutanke@googlemail.com"
 RUN git clone https://github.com/justayak/dotfiles.git && \
     ln -s /dotfiles/vim /root/.vim && \
     ln -s /dotfiles/vim/vimrc /root/.vimrc && \
-    bash /dotfiles/run.sh && \
-    echo "hello3"
+    echo "hello4"
+
+RUN cd /dotfiles && bash run.sh
 
 RUN git clone https://github.com/Itseez/opencv.git
 RUN mkdir opencv/build && \
