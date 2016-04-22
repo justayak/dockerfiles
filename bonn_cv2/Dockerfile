@@ -21,8 +21,10 @@ RUN apt-get install -y \
     vim-gnome \
     curl \
     firefox \
-    python-dev \
-    python3-dev
+    python3-dev \
+    python-dev
+#    llvm \
+#    clang
 
 RUN apt-get install -y \
     build-essential \

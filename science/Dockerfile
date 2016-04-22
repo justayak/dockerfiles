@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     git \
     curl \
     vim \
+    wget \
     cmake \
     locate \
     build-essential \
@@ -30,6 +31,10 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libgtk2.0-dev \
     libatlas-base-dev \
     gfortran \
+    haskell-platform \
+    texlive \
+    texlive-latex-extra \
+    pandoc \
     tmux
 
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
@@ -41,6 +46,7 @@ RUN bash Miniconda3-latest-Linux-x86_64.sh -b
 
 RUN conda install -y numpy \
     conda \
+    anaconda-client \
     conda-build \
     curl \
     greenlet \
