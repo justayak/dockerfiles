@@ -53,6 +53,7 @@ RUN conda install -y numpy \
     cython \
     fastcache \
     flask \
+    graphviz \
     h5py \
     hdf5 \
     ipykernel \
