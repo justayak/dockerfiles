@@ -1,6 +1,6 @@
 #Test stuff for my website
 FROM ubuntu:15.10
-EXPOSE 8080
+EXPOSE 5000
 ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'wedding website'
 RUN apt-get update && apt-get install -y \
