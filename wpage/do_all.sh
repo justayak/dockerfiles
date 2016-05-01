@@ -10,4 +10,4 @@ else
     (cd DONTADD_wedding/scripts && python3 generate_urls.py)
 fi
 docker build -t wpage .
-docker run -p 49160:8080 -d wpage
+docker run -p 49163:8080 -d wpage
