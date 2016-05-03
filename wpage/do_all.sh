@@ -10,4 +10,8 @@ else
     (cd DONTADD_wedding/scripts && python3 generate_urls.py)
 fi
 docker build -t wpage .
+<<<<<<< HEAD
 docker run -p 49163:5000 -d wpage
+=======
+docker run -p 49163:8080 -d --name="wedding_page" wpage
+>>>>>>> 36501450c85b0b00119f6a9a4ad3469a0d626bd8
