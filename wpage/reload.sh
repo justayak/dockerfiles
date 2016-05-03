@@ -13,7 +13,7 @@ if [ -d "DONTADD_wedding" ]; then
         docker rm wedding_page
         docker build -t wpage .
         echo "New page is build"
-        docker run -p 49163:8080 -d --name="wedding_page" wpage
+        docker run -p 49163:5000 -d --name="wedding_page" wpage
         echo "New page is up"
     fi
 else
