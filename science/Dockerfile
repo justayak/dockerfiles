@@ -1,5 +1,5 @@
 #Julians default dev build
-FROM ubuntu:15.10
+FROM ubuntu:16.04
 
 EXPOSE 8888
 
