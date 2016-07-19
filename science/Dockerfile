@@ -122,5 +122,21 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
 
 COPY run_ipnb.sh /home/run_ipnb.sh
 
+# caffe
+RUN apt-get install -y \
+    libprotobuf-dev \
+    libleveldb-dev \
+    libsnappy-dev \
+    libopencv-dev \
+    libhdf5-serial-dev \
+    protobuf-compiler
+RUN apt-get install -y --no-install-recommends libboost-all-dev
+RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+#RUN git clone https://github.com/BVLC/caffe.git && \
+#    cd caffe && mkdir build && cd build && \
+#    cmake .. 
+    
+
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
