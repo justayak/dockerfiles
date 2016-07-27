@@ -1,1 +1,1 @@
-docker build --tag="justayak/science" .
+docker build --force-rm --no-cache --tag="justayak/science" .
