@@ -6,8 +6,14 @@ RUN apt-get update && apt-get install -y \
     git \
     nodejs \
     npm
+# use page
 WORKDIR /home/
 RUN git clone https://github.com/justayak/sharepg.git
 WORKDIR /home/sharepg
+
+COPY BioTrackerDemo.ova /home/sharepg/static/BioTrackerDemo.ova
+COPY small.mov /home/sharepg/static/small.mov
+
 RUN npm install
+
 CMD ["nodejs", "/home/sharepg/main.js"]

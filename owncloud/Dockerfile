@@ -8,10 +8,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 	tmux \
 	vim \
 	curl \
-	php5 \
+	php5-common php5-cli php5-fpm \
+	php5-GD \
+	php5-curl \
+	php5-sqlite3 \
+	apache2-utils \
 	sqlite3 \
-	libsqlite3-dev \
-	nginx
+	libsqlite3-dev 
 
 RUN apt-get install -y nginx
 
@@ -22,6 +25,11 @@ RUN apt-get install -y nginx
 #COPY permissions.sh /permissions.sh
 #RUN sh permissions.sh
 
-COPY setup-owncloud.php
 
+COPY setup-owncloud.php /var/www/html/owncloud.php
+COPY services.sh /services.sh
+COPY default /etc/nginx/sites-available/default
+#COPY default /etc/nginx/sites-enabled/default
+
+#CMD ["/bin/bash", "services.sh"]
 CMD ["/bin/bash"]
