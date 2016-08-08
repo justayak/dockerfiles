@@ -1,5 +1,5 @@
 #Julians default dev build
-FROM ubuntu:15.10
+FROM ubuntu:16.04
 
 EXPOSE 8888
 
@@ -121,6 +121,51 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
     && make install
 
 COPY run_ipnb.sh /home/run_ipnb.sh
+
+# caffe
+RUN apt-get install -y \
+    libprotobuf-dev \
+    libleveldb-dev \
+    libsnappy-dev \
+    libopencv-dev \
+    libhdf5-serial-dev \
+    protobuf-compiler
+RUN apt-get install -y --no-install-recommends libboost-all-dev
+RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+# install torch
+RUN apt-get install -y \
+   libzmq3-dev libssl-dev python-zmq \
+   lua5.3 luarocks
+
+RUN git clone https://github.com/torch/distro.git /root/torch --recursive
+RUN cd /root/torch && sed -i 's/sudo //g' install-deps > install-deps && \
+    bash install-deps && ./install.sh
+
+#RUN cd /root/torch && bash install-deps
+#RUN cd /root/torch && ./install.sh
+#RUN git clone https://github.com/torch/distro.git ~/torch --recursive && \
+#    cd ~/torch; bash install-deps; && ./install.sh
+
+
+RUN luarocks install uuid && \
+    luarocks install lua-cjson && \
+    luarocks install lbase64 && \
+    luarocks install lzmq
+
+#RUN luarocks install image
+#    luarocks install image && \
+#    luarocks install env && \
+#    luarocks install luafilesystem && \
+#    luarocks install penlight
+
+#RUN git clone https://github.com/facebook/iTorch.git
+#RUN cd iTorch && luarocks make
+
+#RUN git clone https://github.com/BVLC/caffe.git && \
+#    cd caffe && mkdir build && cd build && \
+#    cmake .. 
+    
 
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
