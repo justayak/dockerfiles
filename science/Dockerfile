@@ -167,5 +167,12 @@ RUN luarocks install uuid && \
 #    cmake .. 
     
 
+# ==================================================
+# ocatave
+# ==================================================
+
+RUN apt-get install -y gnuplot octave
+RUN pip install octave_kernel && python -m octave_kernel.install
+
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
