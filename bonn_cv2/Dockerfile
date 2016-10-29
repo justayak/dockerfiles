@@ -23,8 +23,6 @@ RUN apt-get install -y \
     firefox \
     python3-dev \
     python-dev
-#    llvm \
-#    clang
 
 RUN apt-get install -y \
     build-essential \
@@ -60,7 +58,7 @@ RUN cd /dotfiles && bash run.sh
 
 RUN git clone https://github.com/Itseez/opencv.git
 RUN mkdir opencv/build && \
-    cd opencv && git checkout 3.1.0
+    cd opencv && git checkout 2.4
 
 RUN cd opencv/build && cmake .. \
     && make -j4 \
