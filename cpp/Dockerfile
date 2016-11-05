@@ -6,21 +6,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get upgrade -y
 
-RUN apt-get install -y \
-    firefox \
-    wget \
-    cmake \
-    tmux \
-    llvm \
-    clang \
-    x11-apps \
-    git \
-    gitk \
-    vim \
-    curl \
-    build-essential
+COPY install_gui.sh /home/install_gui.sh
+RUN cd /home && bash install_gui.sh
 
-RUN wget https://download.jetbrains.com/cpp/CLion-2016.2.1.tar.gz
-RUN tar xfz CLion-2016.2.1.tar.gz
+COPY install_cpp_env.sh /home/install_cpp_env.sh
+RUN cd /home && bash install_cpp_env.sh
 
 RUN ["/bin/bash"]
