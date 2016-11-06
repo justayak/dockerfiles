@@ -1,1 +1,1 @@
-docker run --name="gabriela" -d justayak/gabrielawp
+docker run --name="gabriela" -p 49165:8080 -d justayak/gabrielawp
