@@ -2,6 +2,7 @@ DONTADD*/
 *.MOV
 ssh/
 .git/
+*.bak
 *.swp
 *.ova
 *.db

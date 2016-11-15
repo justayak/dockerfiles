@@ -174,5 +174,11 @@ RUN luarocks install uuid && \
 RUN apt-get install -y gnuplot octave
 RUN pip install octave_kernel && python -m octave_kernel.install
 
+# install libpgm
+RUN git clone https://github.com/CyberPoint/libpgm
+COPY p2to3.py /libpgm/p2to3.py
+RUN cd libpgm && python p2to3.py
+RUN cd libpgm && python setup.py install
+
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
