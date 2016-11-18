@@ -133,6 +133,8 @@ RUN apt-get install -y \
 RUN apt-get install -y --no-install-recommends libboost-all-dev
 RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
 
+RUN pip install graphviz
+
 # install torch
 RUN apt-get install -y \
    libzmq3-dev libssl-dev python-zmq \
