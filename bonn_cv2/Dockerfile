@@ -4,8 +4,8 @@ FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractiv
 ENV LD_LIBRARY_PATH /usr/local/lib
 
-COPY ssh/id_rsa /root/.ssh/id_rsa
-COPY ssh/id_rsa.pub /root/.ssh/id_rsa.pub
+#COPY ssh/id_rsa /root/.ssh/id_rsa
+#COPY ssh/id_rsa.pub /root/.ssh/id_rsa.pub
 
 RUN apt-get update
 RUN apt-get upgrade -y
