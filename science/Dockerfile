@@ -68,6 +68,7 @@ RUN conda install -y numpy \
     jupyter_client \
     jupyter_console \
     jupyter_core \
+    lasagne \
     libffi \
     libsodium \
     libpng \
@@ -173,7 +174,7 @@ RUN luarocks install uuid && \
 # ocatave
 # ==================================================
 
-RUN apt-get install -y gnuplot octave
+#RUN apt-get install -y gnuplot octave
 RUN pip install octave_kernel && python -m octave_kernel.install
 
 # install libpgm
@@ -181,6 +182,17 @@ RUN git clone https://github.com/CyberPoint/libpgm
 COPY p2to3.py /libpgm/p2to3.py
 RUN cd libpgm && python p2to3.py
 RUN cd libpgm && python setup.py install
+
+# jupyter password
+RUN jupyter notebook --generate-config
+RUN echo "c.NotebookApp.ip = '*'" >> ~/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
+
+COPY set_jupyter_pw.py /set_jupyter_pw.py
+RUN python set_jupyter_pw.py
+
+
+RUN chmod +x /home/run_ipnb.sh
 
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
