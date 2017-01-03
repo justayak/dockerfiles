@@ -102,6 +102,7 @@ RUN conda install -y numpy \
     sqlite \
     sqlalchemy \
     theano \
+    tensorflow \
     werkzeug \
     unicodecsv \
     zeromq \
