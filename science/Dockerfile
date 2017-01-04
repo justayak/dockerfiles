@@ -195,5 +195,11 @@ RUN python set_jupyter_pw.py
 
 RUN chmod +x /home/run_ipnb.sh
 
+# ==========
+# vim config
+# =========
+RUN git clone https://github.com/amix/vimrc.git ~/.vim_runtime
+RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
+
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
