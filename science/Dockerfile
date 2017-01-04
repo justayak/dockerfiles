@@ -201,5 +201,9 @@ RUN chmod +x /home/run_ipnb.sh
 RUN git clone https://github.com/amix/vimrc.git ~/.vim_runtime
 RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 
+# ==== install tqdm ====
+# pip is run from anaconda folder..
+RUN pip install tqdm
+
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
