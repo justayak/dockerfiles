@@ -35,7 +35,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     texlive \
     texlive-latex-extra \
     pandoc \
-    tmux
+    tmux \
+    pciutils
 
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     git clone https://github.com/Itseez/opencv.git && mkdir opencv/build
@@ -138,64 +139,6 @@ RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
 
 RUN pip install graphviz
 
-# install torch
-RUN apt-get install -y \
-   libzmq3-dev libssl-dev python-zmq \
-   lua5.3 luarocks
-
-RUN git clone https://github.com/torch/distro.git /root/torch --recursive
-RUN cd /root/torch && sed -i 's/sudo //g' install-deps > install-deps && \
-    bash install-deps && ./install.sh
-
-#RUN cd /root/torch && bash install-deps
-#RUN cd /root/torch && ./install.sh
-#RUN git clone https://github.com/torch/distro.git ~/torch --recursive && \
-#    cd ~/torch; bash install-deps; && ./install.sh
-
-
-RUN luarocks install uuid && \
-    luarocks install lua-cjson && \
-    luarocks install lbase64 && \
-    luarocks install lzmq
-
-#RUN luarocks install image
-#    luarocks install image && \
-#    luarocks install env && \
-#    luarocks install luafilesystem && \
-#    luarocks install penlight
-
-#RUN git clone https://github.com/facebook/iTorch.git
-#RUN cd iTorch && luarocks make
-
-#RUN git clone https://github.com/BVLC/caffe.git && \
-#    cd caffe && mkdir build && cd build && \
-#    cmake .. 
-    
-
-# ==================================================
-# ocatave
-# ==================================================
-
-#RUN apt-get install -y gnuplot octave
-RUN pip install octave_kernel && python -m octave_kernel.install
-
-# install libpgm
-RUN git clone https://github.com/CyberPoint/libpgm
-COPY p2to3.py /libpgm/p2to3.py
-RUN cd libpgm && python p2to3.py
-RUN cd libpgm && python setup.py install
-
-# jupyter password
-RUN jupyter notebook --generate-config
-RUN echo "c.NotebookApp.ip = '*'" >> ~/.jupyter/jupyter_notebook_config.py && \
-    echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
-
-COPY set_jupyter_pw.py /set_jupyter_pw.py
-RUN python set_jupyter_pw.py
-
-
-RUN chmod +x /home/run_ipnb.sh
-
 # ==========
 # vim config
 # =========
@@ -205,6 +148,21 @@ RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 # ==== install tqdm ====
 # pip is run from anaconda folder..
 RUN pip install tqdm
+
+# ==============
+# OpenCL
+# ==============
+RUN apt-get install -y software-properties-common opencl-headers
+RUN add-apt-repository ppa:paulo-miguel-dias/mesa 
+RUN apt-get update
+RUN apt-get install -y libclc-amdgcn mesa-opencl-icd ocl-icd-opencl-dev
+
+RUN git clone https://github.com/naibaf7/libdnn.git && cd libdnn \
+    && mkdir build
+
+RUN git clone https://github.com/BVLC/caffe.git && \
+    cd caffe && git checkout opencl
+#RUN cd caffe && mkdir build && cd build && cmake .. && make all && make install
 
 CMD ["/bin/bash"]
 #CMD ["etc/bash" "run_ipnb.sh"]
