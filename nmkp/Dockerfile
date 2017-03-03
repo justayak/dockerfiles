@@ -21,5 +21,20 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libgtk2.0-dev \
     pkg-config
 
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs \
+    wget \
+    build-essential \
+    libfontconfig1 \
+    mesa-common-dev \
+    libglu1-mesa-dev \
+    qt5-default \
+    npm \
+    default-jre \
+    default-jdk \
+    ubuntu-make
+
+RUN wget https://dl.google.com/dl/android/studio/ide-zips/2.3.0.8/android-studio-ide-162.3764568-linux.zip && unzip android-studio-ide-162.3764568-linux.zip
+    
 RUN ln -s "$(which nodejs)" /usr/bin/node
+
+RUN npm install -g cordova
