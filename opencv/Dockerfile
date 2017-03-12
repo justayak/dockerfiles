@@ -16,7 +16,11 @@ RUN apt-get update && apt-get install -y \
     libswscale-dev \
     qt5-default \
     libboost-all-dev \
-    libc++abi-dev
+    libc++abi-dev \
+    software-properties-common
+
+RUN apt-get update && add-apt-repository ppa:webupd8team/atom
+RUN apt-get update && apt-get install -y atom
 
 RUN apt-get install -y --no-install-recommends doxygen
 RUN apt-get install -y qtcreator
