@@ -5,6 +5,7 @@ EXPOSE 8888
 
 ENV DEBIAN_FRONTEND noninteractiv
 ENV PATH /root/miniconda3/bin:$PATH
+ENV CPLUS_INCLUDE_PATH /root/miniconda3/include
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     firefox \
@@ -38,9 +39,11 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     tmux
 
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build
+    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build && \
+    git clone https://github.com/Itseez/opencv_contrib.git && mkdir opencv_contrib/build
 
-RUN cd opencv && git checkout 3.1.0
+RUN cd opencv && git checkout 3.2.0
+RUN cd opencv_contrib && git checkout 3.2.0
 
 RUN bash Miniconda3-latest-Linux-x86_64.sh -b
 
@@ -56,11 +59,6 @@ RUN conda install -y numpy \
     graphviz \
     h5py \
     hdf5 \
-    ipykernel \
-    ipython \
-    ipython-notebook \
-    ipython-qtconsole \
-    ipython_genutils \
     jinja2 \
     jpeg \
     jsonschema \
@@ -68,7 +66,6 @@ RUN conda install -y numpy \
     jupyter_client \
     jupyter_console \
     jupyter_core \
-    lasagne \
     libffi \
     libsodium \
     libpng \
@@ -109,10 +106,15 @@ RUN conda install -y numpy \
 
 RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
 
-RUN conda install -y -c https://conda.anaconda.org/omnia keras
 RUN conda update conda & conda update --all 
 
+RUN git clone https://github.com/fchollet/keras.git && cd keras git checkout 2.0.3 && \
+    python setup.py install
+
+
+
 RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
+    -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
     -DWITH_CUDA=OFF -DENABLE_AVX=ON -DWITH_OPENGL=ON -DWITH_OPENCL=ON \
     -DWITH_IPP=ON -DWITH_TBB=ON -DWITH_EIGEN=ON -DWITH_V4L=ON \
     -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_BUILD_TYPE=RELEASE \
@@ -125,68 +127,8 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
 
 COPY run_ipnb.sh /home/run_ipnb.sh
 
-# caffe
-RUN apt-get install -y \
-    libprotobuf-dev \
-    libleveldb-dev \
-    libsnappy-dev \
-    libopencv-dev \
-    libhdf5-serial-dev \
-    protobuf-compiler
-RUN apt-get install -y --no-install-recommends libboost-all-dev
-RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
-
-RUN pip install graphviz
-
-# install torch
-RUN apt-get install -y \
-   libzmq3-dev libssl-dev python-zmq \
-   lua5.3 luarocks
-
-RUN git clone https://github.com/torch/distro.git /root/torch --recursive
-RUN cd /root/torch && sed -i 's/sudo //g' install-deps > install-deps && \
-    bash install-deps && ./install.sh
-
-#RUN cd /root/torch && bash install-deps
-#RUN cd /root/torch && ./install.sh
-#RUN git clone https://github.com/torch/distro.git ~/torch --recursive && \
-#    cd ~/torch; bash install-deps; && ./install.sh
-
-
-RUN luarocks install uuid && \
-    luarocks install lua-cjson && \
-    luarocks install lbase64 && \
-    luarocks install lzmq
-
-#RUN luarocks install image
-#    luarocks install image && \
-#    luarocks install env && \
-#    luarocks install luafilesystem && \
-#    luarocks install penlight
-
-#RUN git clone https://github.com/facebook/iTorch.git
-#RUN cd iTorch && luarocks make
-
-#RUN git clone https://github.com/BVLC/caffe.git && \
-#    cd caffe && mkdir build && cd build && \
-#    cmake .. 
-    
-
-# ==================================================
-# ocatave
-# ==================================================
-
-#RUN apt-get install -y gnuplot octave
-RUN pip install octave_kernel && python -m octave_kernel.install
-
-# install libpgm
-RUN git clone https://github.com/CyberPoint/libpgm
-COPY p2to3.py /libpgm/p2to3.py
-RUN cd libpgm && python p2to3.py
-RUN cd libpgm && python setup.py install
-
 # jupyter password
-RUN jupyter notebook --generate-config
+RUN jupyter notebook --generate-config --allow-root
 RUN echo "c.NotebookApp.ip = '*'" >> ~/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
 
@@ -207,4 +149,3 @@ RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 RUN pip install tqdm
 
 CMD ["/bin/bash"]
-#CMD ["etc/bash" "run_ipnb.sh"]
