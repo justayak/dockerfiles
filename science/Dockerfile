@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 
 EXPOSE 8888
 
-ENV DEBIAN_FRONTEND noninteractiv
+ENV DEBIAN_FRONTEND noninteractive
 ENV PATH /root/miniconda3/bin:$PATH
 ENV CPLUS_INCLUDE_PATH /root/miniconda3/include
 
@@ -147,5 +147,6 @@ RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 # ==== install tqdm ====
 # pip is run from anaconda folder..
 RUN pip install tqdm
+RUN conda install torchvision -c soumith
 
 CMD ["/bin/bash"]
