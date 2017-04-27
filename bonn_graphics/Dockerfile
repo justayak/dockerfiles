@@ -3,11 +3,12 @@ FROM justayak/dev
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PATH /root/miniconda3/bin:$PATH
-ENV CPLUS_INCLUDE_PATH /root/miniconda3/include:/libigl/include
-ENV C_INCLUDE_PATH /libigl/include
+ENV CPLUS_INCLUDE_PATH /root/miniconda3/include:/libigl/include:/nanoflann/include
+ENV C_INCLUDE_PATH /libigl/include:/nanoflann/include
 
 RUN apt-get update && apt-get install -y \
     git \
+    firefox \
     apt-utils \
     build-essential \
     libgtk2.0-dev \
@@ -106,3 +107,6 @@ RUN conda install -y numpy \
 RUN apt-get install -y libgl1-mesa-dev mesa-common-dev
 
 RUN git clone --recursive https://github.com/libigl/libigl.git
+
+RUN apt-get install -y libgtest-dev libeigen3-dev
+RUN git clone https://github.com/jlblancoc/nanoflann.git
