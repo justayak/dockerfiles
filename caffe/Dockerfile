@@ -3,9 +3,8 @@ FROM ubuntu:16.04
 
 EXPOSE 8888
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractiv
 ENV PATH /root/miniconda3/bin:$PATH
-ENV CPLUS_INCLUDE_PATH /root/miniconda3/include
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     firefox \
@@ -36,14 +35,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     texlive \
     texlive-latex-extra \
     pandoc \
-    tmux
+    tmux \
+    pciutils
 
 RUN curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build && \
-    git clone https://github.com/Itseez/opencv_contrib.git && mkdir opencv_contrib/build
+    git clone https://github.com/Itseez/opencv.git && mkdir opencv/build
 
-RUN cd opencv && git checkout 3.2.0
-RUN cd opencv_contrib && git checkout 3.2.0
+RUN cd opencv && git checkout 3.1.0
 
 RUN bash Miniconda3-latest-Linux-x86_64.sh -b
 
@@ -59,6 +57,11 @@ RUN conda install -y numpy \
     graphviz \
     h5py \
     hdf5 \
+    ipykernel \
+    ipython \
+    ipython-notebook \
+    ipython-qtconsole \
+    ipython_genutils \
     jinja2 \
     jpeg \
     jsonschema \
@@ -66,6 +69,7 @@ RUN conda install -y numpy \
     jupyter_client \
     jupyter_console \
     jupyter_core \
+    lasagne \
     libffi \
     libsodium \
     libpng \
@@ -106,15 +110,10 @@ RUN conda install -y numpy \
 
 RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
 
+RUN conda install -y -c https://conda.anaconda.org/omnia keras
 RUN conda update conda & conda update --all 
 
-RUN git clone https://github.com/fchollet/keras.git && cd keras git checkout 2.0.3 && \
-    python setup.py install
-
-
-
 RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
-    -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
     -DWITH_CUDA=OFF -DENABLE_AVX=ON -DWITH_OPENGL=ON -DWITH_OPENCL=ON \
     -DWITH_IPP=ON -DWITH_TBB=ON -DWITH_EIGEN=ON -DWITH_V4L=ON \
     -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_BUILD_TYPE=RELEASE \
@@ -127,16 +126,18 @@ RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \
 
 COPY run_ipnb.sh /home/run_ipnb.sh
 
-# jupyter password
-RUN jupyter notebook --generate-config --allow-root
-RUN echo "c.NotebookApp.ip = '*'" >> ~/.jupyter/jupyter_notebook_config.py && \
-    echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
+# caffe
+RUN apt-get install -y \
+    libprotobuf-dev \
+    libleveldb-dev \
+    libsnappy-dev \
+    libopencv-dev \
+    libhdf5-serial-dev \
+    protobuf-compiler
+RUN apt-get install -y --no-install-recommends libboost-all-dev
+RUN apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
 
-COPY set_jupyter_pw.py /set_jupyter_pw.py
-RUN python set_jupyter_pw.py
-
-
-RUN chmod +x /home/run_ipnb.sh
+RUN pip install graphviz
 
 # ==========
 # vim config
@@ -147,6 +148,21 @@ RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 # ==== install tqdm ====
 # pip is run from anaconda folder..
 RUN pip install tqdm
-RUN conda install torchvision -c soumith
+
+# ==============
+# OpenCL
+# ==============
+RUN apt-get install -y software-properties-common opencl-headers
+RUN add-apt-repository ppa:paulo-miguel-dias/mesa 
+RUN apt-get update
+RUN apt-get install -y libclc-amdgcn mesa-opencl-icd ocl-icd-opencl-dev
+
+RUN git clone https://github.com/naibaf7/libdnn.git && cd libdnn \
+    && mkdir build
+
+RUN git clone https://github.com/BVLC/caffe.git && \
+    cd caffe && git checkout opencl
+#RUN cd caffe && mkdir build && cd build && cmake .. && make all && make install
 
 CMD ["/bin/bash"]
+#CMD ["etc/bash" "run_ipnb.sh"]

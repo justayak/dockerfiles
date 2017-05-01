@@ -1,3 +1,4 @@
+.DONTADD*/
 DONTADD*/
 *.MOV
 ssh/
@@ -7,3 +8,4 @@ ssh/
 *.ova
 *.db
 *.mov
+l_mkl_2017.2.174.tgz

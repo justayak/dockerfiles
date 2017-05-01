@@ -1,1 +1,1 @@
-jupyter notebook --ip='*'
+jupyter notebook --ip='*'  --allow-root
