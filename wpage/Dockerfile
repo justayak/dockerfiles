@@ -15,4 +15,7 @@ COPY DONTADD_wedding /home/wedding
 #RUN git clone https://github.com/DieVier/homepage.git
 #WORKDIR /home/homepage
 #RUN npm install
+
+RUN cd /home/wedding && git checkout wedding2
+
 CMD ["python3", "/home/wedding/web.py"]
