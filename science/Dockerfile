@@ -148,5 +148,7 @@ RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 # pip is run from anaconda folder..
 RUN pip install tqdm
 RUN conda install torchvision -c soumith
+RUN conda install spyder
+RUN apt-get install x11-apps firefox
 
 CMD ["/bin/bash"]
