@@ -40,9 +40,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 RUN git config --global user.email "jutanke@googlemail.com"
 
+RUN apt-get install -y gconf-service 
+
 RUN wget "https://github.com/atom/atom/releases/download/v1.16.0/atom-amd64.deb"
 RUN apt-get install -y libnotify4 \
-    libnss3 gvfs-bin xdg-utils htop \
-    && dpkg --install atom-amd64.deb
+    libnss3 gvfs-bin xdg-utils htop
+RUN apt-get install -y gconf2
+RUN dpkg --install atom-amd64.deb
 
+RUN apt-get install -y xpdf
 CMD ["/bin/bash"]
