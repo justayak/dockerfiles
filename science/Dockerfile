@@ -151,8 +151,8 @@ RUN conda install torchvision -c soumith
 RUN conda install spyder
 RUN apt-get install x11-apps firefox
 
-RUN apt-get install -y zsh
-RUN wget http://github.com/sjl/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+#RUN apt-get install -y zsh
+#RUN wget http://github.com/sjl/oh-my-zsh/raw/master/tools/install.sh -O - | sh
 
 RUN conda install -y pytorch torchvision -c soumith
 
