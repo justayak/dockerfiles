@@ -1,4 +1,3 @@
-#Julians default dev build
 FROM ubuntu:16.04
 
 
@@ -33,7 +32,7 @@ RUN apt-get install -y nodejs \
     default-jdk \
     ubuntu-make
 
-RUN wget https://dl.google.com/dl/android/studio/ide-zips/2.3.0.8/android-studio-ide-162.3764568-linux.zip && unzip android-studio-ide-162.3764568-linux.zip
+#RUN wget https://dl.google.com/dl/android/studio/ide-zips/2.3.0.8/android-studio-ide-162.3764568-linux.zip && unzip android-studio-ide-162.3764568-linux.zip
     
 RUN ln -s "$(which nodejs)" /usr/bin/node
 
