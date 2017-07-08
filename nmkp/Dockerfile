@@ -36,4 +36,14 @@ RUN apt-get install -y nodejs \
     
 RUN ln -s "$(which nodejs)" /usr/bin/node
 
-RUN npm install -g cordova
+#RUN npm install -g cordova
+
+RUN apt-get install -y libxss1
+
+RUN wget "https://github.com/atom/atom/releases/download/v1.16.0/atom-amd64.deb"
+RUN apt-get install -y libnotify4 \
+    libnss3 gvfs-bin xdg-utils htop \
+    && dpkg --install atom-amd64.deb
+
+
+COPY .DONTADD_pkmn /home/pkmn
