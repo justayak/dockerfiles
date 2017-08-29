@@ -156,4 +156,13 @@ RUN apt-get install x11-apps firefox
 
 RUN conda install -y pytorch torchvision -c soumith
 
+# install graph-tool
+RUN apt-get install -y libboost-all-dev expat libcgal* libcairomm-* libsparsehash-dev graphviz \
+    autotools-dev autoconf python3-cairo-dev
+#RUN conda install py2cairo
+RUN git clone https://git.skewed.de/count0/graph-tool.git
+RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --force-missing --add-missing && \
+    autoconf && ./configure && make && make install
+
+
 CMD ["/bin/bash"]
