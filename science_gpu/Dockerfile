@@ -1,5 +1,4 @@
-#Julians default dev build
-FROM ubuntu:16.04
+FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu16.04
 
 EXPOSE 8888
 
@@ -7,8 +6,10 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV PATH /root/miniconda3/bin:$PATH
 ENV CPLUS_INCLUDE_PATH /root/miniconda3/include
 
+RUN apt-get update
+RUN apt-get install -y vim tmux
+
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    firefox \
     git \
     curl \
     vim \
@@ -32,9 +33,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libgtk2.0-dev \
     libatlas-base-dev \
     gfortran \
-    haskell-platform \
-    texlive \
-    texlive-latex-extra \
     pandoc \
     tmux
 
@@ -104,14 +102,11 @@ RUN conda install -y numpy \
     zeromq \
     zlib 
 
-RUN conda update conda & conda update --all 
-
-#RUN git clone https://github.com/fchollet/keras.git && cd keras git checkout 2.0.3 && \
-#    python setup.py install
+RUN conda update conda & conda update --all
 
 RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
     -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
-    -DWITH_CUDA=OFF -DENABLE_AVX=OFF -DWITH_OPENGL=OFF -DWITH_OPENCL=OFF \
+    -DWITH_CUDA=ON -DENABLE_AVX=OFF -DWITH_OPENGL=OFF -DWITH_OPENCL=OFF \
     -DWITH_IPP=OFF -DWITH_TBB=OFF -DWITH_EIGEN=OFF -DWITH_V4L=OFF \
     -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_BUILD_TYPE=RELEASE \
     -DCMAKE_INSTALL_PREFIX=$(python3 -c "import sys; print(sys.prefix)") \
@@ -140,16 +135,6 @@ RUN chmod +x /home/run_ipnb.sh
 RUN git clone https://github.com/amix/vimrc.git ~/.vim_runtime
 RUN sh ~/.vim_runtime/install_awesome_vimrc.sh
 
-# ==== install tqdm ====
-# pip is run from anaconda folder..
-RUN pip install tqdm
-RUN conda install torchvision -c soumith
-RUN conda install spyder
-RUN apt-get install x11-apps firefox
-
-#RUN apt-get install -y zsh
-#RUN wget http://github.com/sjl/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-
 RUN conda install -y pytorch torchvision -c soumith
 
 # install graph-tool
@@ -160,9 +145,6 @@ RUN git clone https://git.skewed.de/count0/graph-tool.git
 RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --force-missing --add-missing && \
     autoconf && ./configure && make && make install
 
-RUN apt-get install htop
+RUN apt-get install -y htop
 
-RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64-deb
-RUN dpkg -i cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64.deb && apt-get update && apt-get install -y cuda
 
-CMD ["/bin/bash"]
