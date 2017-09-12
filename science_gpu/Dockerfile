@@ -147,4 +147,4 @@ RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --f
 
 RUN apt-get install -y htop
 
-
+RUN conda install -y tensorflow-gpu
