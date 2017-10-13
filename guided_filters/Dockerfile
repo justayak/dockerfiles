@@ -46,10 +46,19 @@ RUN apt-get install -y \
 RUN git config --global user.email "jutanke@googlemail.com"
 
 RUN git clone https://github.com/Itseez/opencv.git
+RUN git clone https://github.com/opencv/opencv_contrib.git
+
+# -- stuff needed for opencv_contrib
+RUN apt-get update && apt-get install -y openjdk-8-jdk
+
+ENV JAVA_INCLUDE_DIR /usr/lib64/java/include
+
+# --
 RUN mkdir opencv/build && \
     cd opencv && git checkout 3.2.0
+RUN cd opencv_contrib && git checkout 3.2.0
 
-RUN cd opencv/build && cmake .. \
+RUN cd opencv/build && cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules .. \
     && make -j4 \
     && make install
 
