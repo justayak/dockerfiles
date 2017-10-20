@@ -134,5 +134,12 @@ RUN apt-get update && apt-get install -y libnotify4 \
     && dpkg --install atom-amd64.deb
 
 RUN rm atom-amd64.deb
+ENV CPLUS_INCLUDE_PATH $CPLUS_INCLUDE_PATH:/root/miniconda3/lib/python3.6/site-packages/numpy/core/include/numpy
 
 COPY .DONTADDcv2hpp /home/cv2hpp 
+
+RUN apt-get install -y python-numpy && conda install pip
+RUN pip install --upgrade pip
+RUN pip install virtualenv
+
+RUN apt-get install -y libboost-all-dev
