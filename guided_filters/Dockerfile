@@ -55,8 +55,8 @@ ENV JAVA_INCLUDE_DIR /usr/lib64/java/include
 
 # --
 RUN mkdir opencv/build && \
-    cd opencv && git checkout 3.2.0
-RUN cd opencv_contrib && git checkout 3.2.0
+    cd opencv && git checkout 3.3.0
+RUN cd opencv_contrib && git checkout 3.3.0
 
 RUN cd opencv/build && cmake -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules .. \
     && make -j4 \

@@ -157,12 +157,22 @@ RUN apt-get install x11-apps firefox
 RUN conda install -y pytorch torchvision -c soumith
 
 # install graph-tool
-RUN apt-get install -y libboost-all-dev expat libcgal* libcairomm-* libsparsehash-dev graphviz \
+RUN apt-get update && apt-get install -y libboost-all-dev expat libcgal* libcairomm-* libsparsehash-dev graphviz \
     autotools-dev autoconf python3-cairo-dev
-#RUN conda install py2cairo
-RUN git clone https://git.skewed.de/count0/graph-tool.git
-RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --force-missing --add-missing && \
-    autoconf && ./configure && make && make install
+RUN conda update --all -y 
+#RUN git clone --branch release-2.25 --depth 1 https://git.skewed.de/count0/graph-tool.git
+#RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --force-missing --add-missing && \
+#    autoconf && ./configure && make -j4 && make install
 
+#RUN echo deb http://downloads.skewed.de/apt/xenial xenial universe >> /etc/apt/sources.list
+#RUN apt-key adv --keyserver pgp.skewed.de --recv-key 612DEFB798507F25
+#RUN apt-get update && apt-get install -y python-graph-tool
+
+COPY gurobi7.5.1_linux64.tar.gz /opt/gurobi7.5.1_linux64.tar.gz
+RUN cd /opt && tar xvfz gurobi7.5.1_linux64.tar.gz
+
+ENV GUROBI_HOME /opt/gurobi751/linux64
+ENV PATH ${PATH}:${GUROBI_HOME}/bin
+ENV LD_LIBRARY_PATH ${GUROBI_HOME}/lib
 
 CMD ["/bin/bash"]
