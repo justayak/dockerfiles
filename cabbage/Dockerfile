@@ -154,4 +154,6 @@ RUN apt-get install -y libasound2
 RUN apt-get install -y python-dev python3-dev libxml2-dev libxslt-dev
 ENV CPLUS_INCLUDE_PATH ${CPLUS_INCLUDE_PATH}:/usr/include/python3.5
 
+RUN git clone https://github.com/cocodataset/cocoapi && cd /cocoapi/PythonAPI && make && make install
+
 RUN /bin/bash
