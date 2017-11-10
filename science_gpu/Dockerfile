@@ -147,4 +147,6 @@ RUN cd graph-tool && libtoolize --force && aclocal && autoheader && automake --f
 
 RUN apt-get install -y htop
 
+RUN git clone https://github.com/cocodataset/cocoapi && cd /cocoapi/PythonAPI && make && make install
+
 RUN conda install -y tensorflow-gpu

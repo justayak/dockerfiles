@@ -131,6 +131,9 @@ RUN cd /opt && tar xvfz gurobi7.5.1_linux64.tar.gz
 ENV GUROBI_HOME /opt/gurobi751/linux64
 ENV PATH ${PATH}:${GUROBI_HOME}/bin:/opt/Qt5.9.2/Tools/QtCreator/bin
 ENV LD_LIBRARY_PATH ${GUROBI_HOME}/lib
+
+# gurobi needs an old gcc...
+RUN apt-get install -y g++-4.8
 # gurobi end
 
 RUN apt-get install libboost-all-dev
