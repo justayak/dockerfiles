@@ -8,6 +8,7 @@ ENV PATH /root/miniconda3/bin:$PATH
 ENV CPLUS_INCLUDE_PATH /root/miniconda3/include
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    eog \
     firefox \
     git \
     curl \
