@@ -18,12 +18,20 @@ RUN apt-get update && apt-get install -y \
     libavformat-dev \
     libswscale-dev \
     libopencv-dev \
-    libboost-all-dev \
     libc++abi-dev \
     wget \
     libfontconfig1
 
 RUN apt-get install -y --no-install-recommends doxygen
+
+# install boost
+ENV BOOST_ROOT /boost/boost
+ENV BOOST_INCLUDEDIR /boost/boost
+RUN git clone --recursive https://github.com/boostorg/boost.git
+RUN cd boost && git checkout boost-1.65.1
+RUN cd boost && bash bootstrap.sh
+RUN cd boost && ./b2 headers
+# -----
 
 RUN apt-get install -y python-dev
 RUN apt-get install -y python3-dev
@@ -136,9 +144,7 @@ ENV LD_LIBRARY_PATH ${GUROBI_HOME}/lib
 RUN apt-get install -y g++-4.8
 # gurobi end
 
-RUN apt-get install libboost-all-dev
-
-RUN cd /home && git clone https://github.com/justayak/cabbage.git
+#RUN cd /home && git clone https://github.com/justayak/cabbage.git
 
 # install atom
 RUN wget "https://github.com/atom/atom/releases/download/v1.21.2/atom-amd64.deb"
@@ -157,4 +163,18 @@ ENV CPLUS_INCLUDE_PATH ${CPLUS_INCLUDE_PATH}:/usr/include/python3.5
 RUN git clone https://github.com/cocodataset/cocoapi && cd /cocoapi/PythonAPI && make && make install
 RUN pip install hdf5storage
 
-RUN /bin/bash
+RUN jupyter notebook --generate-config --allow-root
+RUN echo "c.NotebookApp.ip = '*'" >> ~/.jupyter/jupyter_notebook_config.py && \
+    echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
+
+COPY set_jupyter_pw.py /set_jupyter_pw.py
+RUN python set_jupyter_pw.py
+
+COPY run_ipnb.sh /home/run_ipnb.sh
+
+RUN chmod +x /home/run_ipnb.sh
+
+RUN echo "version 0.0.1"
+RUN pip install git+https://github.com/justayak/pak.git
+
+RUN apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
