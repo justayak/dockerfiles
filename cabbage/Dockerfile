@@ -178,3 +178,9 @@ RUN echo "version 0.0.1"
 RUN pip install git+https://github.com/justayak/pak.git
 
 RUN apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
+
+
+RUN cd /home && curl -O http://lear.inrialpes.fr/src/deepmatching/code/deepmatching_1.2.2.zip
+RUN apt-get install -y zip unzip
+RUN cd /home && unzip deepmatching_1.2.2.zip
+
