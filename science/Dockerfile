@@ -114,7 +114,6 @@ RUN git clone https://github.com/fchollet/keras.git && cd keras git checkout 2.0
 
 
 RUN cd opencv/build/ && cmake -DBUILD_TIFF=ON -DBUILD_opencv_java=OFF \ 
-    -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib/modules \
     -DWITH_CUDA=OFF -DENABLE_AVX=ON -DWITH_OPENGL=ON -DWITH_OPENCL=ON \
     -DWITH_IPP=ON -DWITH_TBB=ON -DWITH_EIGEN=ON -DWITH_V4L=ON \
     -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DCMAKE_BUILD_TYPE=RELEASE \
@@ -154,7 +153,7 @@ RUN apt-get install x11-apps firefox
 #RUN apt-get install -y zsh
 #RUN wget http://github.com/sjl/oh-my-zsh/raw/master/tools/install.sh -O - | sh
 
-RUN conda install -y pytorch torchvision -c soumith
+#RUN conda install -y pytorch torchvision -c soumith
 
 # install graph-tool
 RUN apt-get update && apt-get install -y libboost-all-dev expat libcgal* libcairomm-* libsparsehash-dev graphviz \
@@ -168,11 +167,11 @@ RUN conda update --all -y
 #RUN apt-key adv --keyserver pgp.skewed.de --recv-key 612DEFB798507F25
 #RUN apt-get update && apt-get install -y python-graph-tool
 
-COPY gurobi7.5.1_linux64.tar.gz /opt/gurobi7.5.1_linux64.tar.gz
-RUN cd /opt && tar xvfz gurobi7.5.1_linux64.tar.gz
+#COPY gurobi7.5.1_linux64.tar.gz /opt/gurobi7.5.1_linux64.tar.gz
+#RUN cd /opt && tar xvfz gurobi7.5.1_linux64.tar.gz
 
-ENV GUROBI_HOME /opt/gurobi751/linux64
-ENV PATH ${PATH}:${GUROBI_HOME}/bin
-ENV LD_LIBRARY_PATH ${GUROBI_HOME}/lib
+#ENV GUROBI_HOME /opt/gurobi751/linux64
+#ENV PATH ${PATH}:${GUROBI_HOME}/bin
+#ENV LD_LIBRARY_PATH ${GUROBI_HOME}/lib
 
 CMD ["/bin/bash"]
